@@ -16,37 +16,33 @@ namespace DAL.Repository
             _db = client.GetDatabase(settings.Value.Database);
         }
 
-        public async Task<bool> Create<T>(T item) where T : class, new()
+        public async Task<T> Create<T>(T item) where T : class, new()
         {
-            try
-            {
-                await _db.GetCollection<T>(typeof(T).Name).InsertOneAsync(item);
-                return false;
-            }
-            catch (Exception)
-            {
-                return true;
-            }
+
+            await _db.GetCollection<T>(typeof(T).Name).InsertOneAsync(item);
+            return item;
         }
 
-        public T Read<T>(FilterDefinition<T> filter) where T : class, new()
+        public async Task<T> Read<T>(FilterDefinition<T> filter) where T : class, new()
+        {
+            var result = await _db.GetCollection<T>(typeof(T).Name).Find(filter).FirstOrDefaultAsync();
+            return result;
+        }
+
+        public Task<T> Update<T>(FilterDefinition<T> filter, T item) where T : class, new()
         {
             throw new NotImplementedException();
         }
 
-        public T Update<T>(FilterDefinition<T> filter, T item) where T : class, new()
+        public Task<T> Delete<T>(T item) where T : class, new()
         {
             throw new NotImplementedException();
         }
 
-        public T Delete<T>(T item) where T : class, new()
+        public async Task<IQueryable<T>> List<T>(FilterDefinition<T> filter) where T : class, new()
         {
-            throw new NotImplementedException();
-        }
-
-        public IQueryable<T> List<T>(FilterDefinition<T> filter) where T : class, new()
-        {
-            throw new NotImplementedException();
+            var result = await _db.GetCollection<T>(typeof(T).Name).Find(filter).ToListAsync();
+            return result.AsQueryable();
         }
     }
 }
