@@ -45,7 +45,6 @@ namespace API
             //MongoDB
             services.Configure<MongoSettings>(o =>
             {
-                o.ConnectionString = Configuration.GetSection("MongoConnection:ConnectionString").Value;
                 o.Database = Configuration.GetSection("MongoConnection:Database").Value;
             });
 
