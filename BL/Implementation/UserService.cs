@@ -16,9 +16,5 @@ namespace BL.Implementation
         {
             _repository = repository;
         }
-        public async Task<bool> AddUser(User user)
-        {
-            return await _repository.Create(user);
-        }
     }
 }

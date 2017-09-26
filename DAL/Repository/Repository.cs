@@ -16,33 +16,25 @@ namespace DAL.Repository
             _db = client.GetDatabase(settings.Value.Database);
         }
 
-        public async Task<T> Create<T>(T item) where T : class, new()
-        {
 
-            await _db.GetCollection<T>(typeof(T).Name).InsertOneAsync(item);
-            return item;
-        }
-
-        public async Task<T> Read<T>(FilterDefinition<T> filter) where T : class, new()
-        {
-            var result = await _db.GetCollection<T>(typeof(T).Name).Find(filter).FirstOrDefaultAsync();
-            return result;
-        }
-
-        public Task<T> Update<T>(FilterDefinition<T> filter, T item) where T : class, new()
+        public async Task<T> Create<T>() where T : class, new()
         {
             throw new NotImplementedException();
         }
 
-        public Task<T> Delete<T>(T item) where T : class, new()
+        public async Task<T> Read<T>() where T : class, new()
         {
             throw new NotImplementedException();
         }
 
-        public async Task<IQueryable<T>> List<T>(FilterDefinition<T> filter) where T : class, new()
+        public async Task<T> Update<T>() where T : class, new()
         {
-            var result = await _db.GetCollection<T>(typeof(T).Name).Find(filter).ToListAsync();
-            return result.AsQueryable();
+            throw new NotImplementedException();
+        }
+
+        public async Task<T> Delete<T>() where T : class, new()
+        {
+            throw new NotImplementedException();
         }
     }
 }
